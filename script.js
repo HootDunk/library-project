@@ -9,15 +9,15 @@ function Book(title, author, pages, read){
     this.read = read
 
 }
-// Book.prototype.info = function() {
-//     return (`${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`);
-// }
+
+//update this toggleReadStatus function once you add the checkbox button and checkbox event listener.
 Book.prototype.readStatus = function() {
     console.log(this.read)
 }
 
 //okay so add a button for read status else where
 //then use this prototype to toggle a books read status (probs will just flip the boolean value)
+//not 100% sure where this will get called but i'm expecting it to be in the event listener.
 Book.prototype.updateReadStatus = function() {
     myLibrary.forEach(book => {
         book.readStatus()
@@ -43,6 +43,8 @@ function addDeleteBtn(tableRow){
         });
 }
 
+
+
 function addBookToLibrary(title, author, page, readStatus){
     const book = new Book(title, author, page, readStatus);
     myLibrary.push(book);
@@ -52,7 +54,7 @@ function addBookToLibrary(title, author, page, readStatus){
 }
 
 
-//okay so this could either be used to update the data id's or to add the odd number class.
+// okay so this could either be used to update the data id's or to add the odd number class.
 // I'm thinking that the addBookToLibrary function would still be best for adding html.
 function updateTable(){
     // const tableBody = document.querySelector("#books");
@@ -62,6 +64,21 @@ function updateTable(){
     });
 };
 
+function addCheckMark(tableRow){
+        //create new cell for button
+        const tableCell = document.createElement('td');
+        tableRow.append(tableCell);
+        //create table button, add text and class, add to table cell
+        const checkbox = document.createElement('input');
+        // Assigning the attributes 
+        // to created checkbox 
+        checkbox.type = "checkbox"; 
+        checkbox.name = "name"; 
+        checkbox.value = "value"; 
+        checkbox.id = "id";
+}
+
+//creates row and renders it, returns table row.
 function renderRow(book, index){
     const tableBody = document.querySelector("#books");
     const tableRow = document.createElement('tr');
@@ -87,10 +104,6 @@ function render(){
     });
            
 }
-
-
-    
-
 
 const addBookBtn = document.querySelector('.open-button');
 addBookBtn.addEventListener('click', () => {
@@ -147,3 +160,10 @@ render();
 
 // newest issue: I will need to fix the render method so that it updates the html with the elements not already on the page.
 //^ FIXED
+
+
+
+// Create a function to add the checkmark button.
+// add necessary conditionals so that the button gets added once this.read is getting added.
+// make sure function takes in the this.read value and is either checked or unchecked. 
+// create checkbox button and event listener and then put it in the render row function. 

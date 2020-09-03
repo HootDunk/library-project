@@ -64,8 +64,9 @@ function updateTable(){
     });
 };
 
-function addCheckMark(tableRow){
+function addCheckMark(tableRow, value){
         //create new cell for button
+        console.log(value)
         const tableCell = document.createElement('td');
         tableRow.append(tableCell);
         //create table button, add text and class, add to table cell
@@ -73,9 +74,11 @@ function addCheckMark(tableRow){
         // Assigning the attributes 
         // to created checkbox 
         checkbox.type = "checkbox"; 
-        checkbox.name = "name"; 
-        checkbox.value = "value"; 
-        checkbox.id = "id";
+        checkbox.name = "name";
+        checkbox.checked = value;
+        // checkbox.value = "value"; 
+        // checkbox.id = "id";
+        tableCell.append(checkbox);
 }
 
 //creates row and renders it, returns table row.
@@ -88,9 +91,16 @@ function renderRow(book, index){
 
     const values = Object.values(book);
     values.forEach(value => {
-        const tableCell = document.createElement('td');
-        tableCell.textContent = value;
-        tableRow.append(tableCell)
+        
+        if (value === true || value === false){
+            console.log("we're in")
+            addCheckMark(tableRow, value)
+        }else{
+            const tableCell = document.createElement('td');
+            tableCell.textContent = value;
+            tableRow.append(tableCell)
+        }
+
 
     });
     return tableRow
@@ -136,7 +146,7 @@ submitBtn.addEventListener('click', () => {
 // addBookToLibrary("The Return of the King", "Tolkein", 876, false);
 
 // To test Render
-const book1 = new Book("The Hobbit", "J.R.R Tolkein", 675, false);
+const book1 = new Book("The Hobbit", "J.R.R Tolkein", 675, true);
 const book2 = new Book("The Return of the King", "Tolkein", 876, false);
 myLibrary.push(book1);
 myLibrary.push(book2);

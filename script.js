@@ -1,7 +1,6 @@
 let myLibrary = [];
 
 
-//constructor for "Book" object
 function Book(title, author, pages, read){
     this.title = title
     this.author = author
@@ -10,18 +9,14 @@ function Book(title, author, pages, read){
 
 }
 
-//update this toggleReadStatus function once you add the checkbox button and checkbox event listener.
-Book.prototype.readStatus = function() {
-    console.log(this.read)
-}
 
-//okay so add a button for read status else where
-//then use this prototype to toggle a books read status (probs will just flip the boolean value)
-//not 100% sure where this will get called but i'm expecting it to be in the event listener.
-Book.prototype.updateReadStatus = function() {
-    myLibrary.forEach(book => {
-        book.readStatus()
-    })
+Book.prototype.readStatus = function() {
+    if (this.read === true){
+        this.read = false;
+    }
+    else if (this.read === false){
+        this.read = true;
+    }  
 }
 
 
@@ -54,17 +49,14 @@ function addBookToLibrary(title, author, page, readStatus){
 }
 
 
-// okay so this could either be used to update the data id's or to add the odd number class.
-// I'm thinking that the addBookToLibrary function would still be best for adding html.
 function updateTable(){
-    // const tableBody = document.querySelector("#books");
     const tableRows = document.querySelectorAll(".table-row");
     tableRows.forEach(row => {
         console.log(row.getAttribute('data-id'))
     });
 };
 
-function addCheckMark(tableRow, value){
+function addCheckMark(tableRow, value, book){
         //create new cell for button
         console.log(value)
         const tableCell = document.createElement('td');
@@ -76,9 +68,12 @@ function addCheckMark(tableRow, value){
         checkbox.type = "checkbox"; 
         checkbox.name = "name";
         checkbox.checked = value;
-        // checkbox.value = "value"; 
-        // checkbox.id = "id";
         tableCell.append(checkbox);
+        checkbox.addEventListener("click", () => {
+            const rowID = tableRow.getAttribute('data-id');
+            book.readStatus()
+
+        });
 }
 
 //creates row and renders it, returns table row.
@@ -94,7 +89,7 @@ function renderRow(book, index){
         
         if (value === true || value === false){
             console.log("we're in")
-            addCheckMark(tableRow, value)
+            addCheckMark(tableRow, value, book)
         }else{
             const tableCell = document.createElement('td');
             tableCell.textContent = value;
@@ -125,7 +120,7 @@ closeForm.addEventListener('click', () => {
     document.getElementById("myForm").style.display = "none";
 })
 
-// will need to get this to pull all of the info from the form and pass it to the updated addBookToLibrary function.
+
 const submitBtn = document.querySelector('.btn-submit');
 submitBtn.addEventListener('click', () => {
     
@@ -136,8 +131,6 @@ submitBtn.addEventListener('click', () => {
 
     addBookToLibrary(bookTitle, bookAuthor, pageNum, readStatus);
     document.getElementById("myForm").style.display = "none";
-    //could create a function that changes the text in the Add Book button
-    // to something like submitted! and then have it enlarge and change back after through seconds
 
 });
 
@@ -146,34 +139,14 @@ submitBtn.addEventListener('click', () => {
 // addBookToLibrary("The Return of the King", "Tolkein", 876, false);
 
 // To test Render
-const book1 = new Book("The Hobbit", "J.R.R Tolkein", 675, true);
-const book2 = new Book("The Return of the King", "Tolkein", 876, false);
+const book1 = new Book('"The Hobbit"', "J.R.R Tolkein", 675, true);
+const book2 = new Book('"The Return of the King"', " J.R.R Tolkein", 876, true);
+const book3 = new Book ('"Hyperion"', "Dan Simmons", 456, true);
+const book4 = new Book('"The Fall of Hyperion"', "Dan Simmons", 345, false)
 myLibrary.push(book1);
 myLibrary.push(book2);
+myLibrary.push(book3);
+myLibrary.push(book4);
 render();
 
-
-
-// Notes
  
-// also need to puzzle out the Read (status) column.  Need it to change on click.  So will need an event listener that changes the
-// boolean value on click.  and then changes the element in the document.
-
-// can use the index to add a class to each odd numbered tablerow/cell. this class will change the background color. 
-
-
-
-// to do the alternating table colors, use something other then delete so that indexs get reset.  then write a function that
-// will update the classes to set the background colors.
-
-//lost the og styling inspiration but i found another https://georgius17.github.io/library/
-
-// newest issue: I will need to fix the render method so that it updates the html with the elements not already on the page.
-//^ FIXED
-
-
-
-// Create a function to add the checkmark button.
-// add necessary conditionals so that the button gets added once this.read is getting added.
-// make sure function takes in the this.read value and is either checked or unchecked. 
-// create checkbox button and event listener and then put it in the render row function. 

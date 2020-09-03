@@ -2,18 +2,30 @@
 <html>
 
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@700&family=Roboto&display=swap" rel="stylesheet">
   <meta charset="utf-8">
   <title></title>
   <meta name="author" content="">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="css/style.css" rel="stylesheet">
+  
 
 </head>
 
 <body>
 
-<header>My Book List</header>
+<header>
+  <div id="header-assets">
+    
+    <h1 id="header-text">
+      <img src="book.png" alt="book image" id="book-image">
+      My Library
+      <img src="book.png" alt="book image" id="book-image">
+    </h1>
+  </div>
+
+</header>
 
 <table>
     <thead>
@@ -26,12 +38,12 @@
         </tr>
     </thead>
     <tbody id="books"></tbody>
-    <tfoot>
+    <!-- <tfoot>
         <tr>
-            <th scope="row" colspan="2">Total Books</th>
-            <td colspan="2">77</td>
+            <th scope="row" colspan="1">Total Books</th>
+            <td colspan="1">77</td>
           </tr>
-    </tfoot>
+    </tfoot> -->
 </table>
 
 <button class="open-button">Add Book</button>

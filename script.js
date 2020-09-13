@@ -66,6 +66,7 @@ function addCheckMark(tableRow, value, book){
         console.log(value)
         const tableCell = document.createElement('td');
         tableRow.append(tableCell);
+        tableCell.classList.add("table-checkbox");
         //create table button, add text and class, add to table cell
         const checkbox = document.createElement('input');
         // Assigning the attributes 
@@ -232,4 +233,7 @@ db.collection('books').get().then((snapshot) =>{
 // the delete button corresponds to the rows doc.id and now deletes both the row and its
 // document in the database
 // all that is left is having it update the read status everytime it is toggled. 
+// also github pages is all messed up so check in to that
+// and try opening it on another pc to see if your records remain
+// probably have to enable that anonymous login thing or whatever it was
 

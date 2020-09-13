@@ -1,3 +1,4 @@
+
 let myLibrary = [];
 
 
@@ -31,10 +32,14 @@ function addDeleteBtn(tableRow){
         tableCell.append(tableButton);
         //add event listener to table button
         tableButton.addEventListener('click', () => {
-            const rowID = tableRow.getAttribute('data-id');
-            const row = document.querySelector(`[data-id='${rowID}']`);
+            const id = tableRow.getAttribute('data-id');
+            const row = document.querySelector(`[data-id='${id}']`);
             row.remove();
-            delete myLibrary[rowID];
+            db.collection('books').doc(id).delete();
+
+            //rowID now longer correspondes to location in array
+            // will need to consider adding a doc.id attribute to the book object or something.
+            // delete myLibrary[rowID];
         });
 }
 
@@ -48,7 +53,7 @@ function addBookToLibrary(title, author, page, readStatus){
     addDeleteBtn(tableRow);
 }
 
-
+//pretty sure this was where I was going to do the color formating. not sure if i'll keep or delete it. 
 function updateTable(){
     const tableRows = document.querySelectorAll(".table-row");
     tableRows.forEach(row => {
@@ -88,15 +93,12 @@ function renderRow(book, index){
     values.forEach(value => {
         
         if (value === true || value === false){
-            console.log("we're in")
             addCheckMark(tableRow, value, book)
         }else{
             const tableCell = document.createElement('td');
             tableCell.textContent = value;
             tableRow.append(tableCell)
         }
-
-
     });
     return tableRow
 }
@@ -129,6 +131,20 @@ submitBtn.addEventListener('click', () => {
     const pageNum = document.querySelector("[name='pages']").value;
     const readStatus = document.querySelector("[name='read']").checked;
 
+    //adds book to firebase
+    db.collection("books").add({
+        title: bookTitle,
+        author: bookAuthor,
+        pages: pageNum,
+        read: readStatus,
+    })
+    .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+    })
+    .catch(function(error) {
+        console.error("Error adding document: ", error);
+    });
+
     addBookToLibrary(bookTitle, bookAuthor, pageNum, readStatus);
     document.getElementById("myForm").style.display = "none";
 
@@ -139,14 +155,81 @@ submitBtn.addEventListener('click', () => {
 // addBookToLibrary("The Return of the King", "Tolkein", 876, false);
 
 // To test Render
-const book1 = new Book('"The Hobbit"', "J.R.R Tolkein", 675, true);
-const book2 = new Book('"The Return of the King"', " J.R.R Tolkein", 876, true);
-const book3 = new Book ('"Hyperion"', "Dan Simmons", 456, true);
-const book4 = new Book('"The Fall of Hyperion"', "Dan Simmons", 345, false)
-myLibrary.push(book1);
-myLibrary.push(book2);
-myLibrary.push(book3);
-myLibrary.push(book4);
-render();
+// const book1 = new Book('"The Hobbit"', "J.R.R Tolkein", 675, true);
+// const book2 = new Book('"The Return of the King"', " J.R.R Tolkein", 876, true);
+// const book3 = new Book ('"Hyperion"', "Dan Simmons", 456, true);
+// const book4 = new Book('"The Fall of Hyperion"', "Dan Simmons", 345, false)
+// myLibrary.push(book1);
+// myLibrary.push(book2);
+// myLibrary.push(book3);
+// myLibrary.push(book4);
+// render();
+
+
 
  
+
+
+// myLibrary.forEach((book) => {
+    //this is how to add a book to the data base, will need to use later. 
+//     db.collection("books").add({
+//         title: book.title,
+//         author: book.author,
+//         pages: book.pages,
+//         read: book.read,
+//     })
+//     .then(function(docRef) {
+//         console.log("Document written with ID: ", docRef.id);
+//     })
+//     .catch(function(error) {
+//         console.error("Error adding document: ", error);
+//     });
+// });
+
+//appears to be working so far.  this sets the data id to the firebase id. 
+function renderBooks(doc){
+    const tableBody = document.querySelector("#books");
+    const tableRow = document.createElement('tr');
+    tableRow.setAttribute("data-id", doc.id);
+    tableRow.classList.add("table-row");
+    tableBody.append(tableRow);
+    
+    // may not need anymore. oh wait probably will bc the order thing, hmmmm.
+    const book = new Book(doc.data().title, doc.data().author, doc.data().pages, doc.data().read);
+    myLibrary.push(book);
+
+    const values = Object.values(book);
+    values.forEach(value => {
+        
+        if (value === true || value === false){
+            addCheckMark(tableRow, value, book)
+        }else{
+            const tableCell = document.createElement('td');
+            tableCell.textContent = value;
+            tableRow.append(tableCell)
+        }
+    });
+    addDeleteBtn(tableRow);
+}
+
+
+function addToBookObject(doc){
+    const book = new Book(doc.data().title, doc.data().author, doc.data().pages, doc.data().read);
+    myLibrary.push(book);
+}
+
+//.then() is there bc call is asynchronous, takes some time for data retreival
+db.collection('books').get().then((snapshot) =>{
+    snapshot.docs.forEach(doc => {
+        console.log(doc.data())
+        renderBooks(doc);
+    })
+    // render();
+});
+
+
+//okay so the submit button now sends the new book to the data base
+// the delete button corresponds to the rows doc.id and now deletes both the row and its
+// document in the database
+// all that is left is having it update the read status everytime it is toggled. 
+

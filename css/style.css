@@ -1,0 +1,149 @@
+/* {box-sizing: border-box;} */
+body{
+  background-color: #EEEEEE;
+  /* background-image: url("https://i.pinimg.com/736x/3f/57/62/3f57620e5c8d553f181b390a10b7f03b.jpg"); */
+  /* color: white; */
+  margin: 0;
+}
+table {
+    table-layout: fixed;
+    width: 75%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-top: 1px solid rgb(0,0,0, 0.3);
+
+}
+
+th, td {
+    padding: 5px;
+    font-family: 'Roboto', sans-serif;
+}
+thead th {
+  background-color: #343a40;
+  color: white;
+}
+
+td{
+  font-size: 15px;
+}
+
+
+tbody td {
+    text-align: center;
+    border-top: 1px solid rgb(0,0,0, 0.3);
+    border-bottom: 1px solid rgb(0,0,0, 0.3);
+}
+
+/* tfoot th{
+    text-align: right;
+    background-color: #343a40;
+    color: white;
+} */
+
+
+.delete-button{
+    box-sizing: border-box;
+    height: 20px;
+    color: white;
+    
+    background-color:  #CD5C5C;
+   
+    border-radius: 4px;
+    
+    border: none;
+}
+
+/* #header-assets{
+  background-color: #2874A6;
+} */
+#book-image {
+  vertical-align: middle;
+  height: 70px;
+}
+
+#header-text{
+  margin: 0;
+  text-align: center;
+  font-family: 'Merienda', cursive;
+}
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button {
+    box-sizing: border-box;
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 15px;
+    right: 28px;
+    width: 200px;
+
+    margin: 5px 0 10px 0;    
+  }
+
+  /* The popup form - hidden by default */
+.form-popup {
+    box-sizing: border-box;
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+}
+/* Add styles to the form container */
+.form-container {
+    box-sizing: border-box;
+    max-width: 220px;
+    padding: 10px;
+    /* padding-bottom: 0px; */
+    background-color: white;
+    
+  }
+
+  /* Full-width input fields */
+.form-container input[type=text], input[type=number], input[type=checkbox]{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 10px 0;
+    border: none;
+    background: #f1f1f1;
+  }
+
+
+
+  /* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=number]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+
+  /* Set a style for the submit/login button */
+.form-container .btn-close, .btn-submit {
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+  }
+  /* Add a red background color to the cancel button */
+.form-container .btn-close {
+    background-color: red;
+  }
+
+/* Add some hover effects to buttons */
+.form-container .btn-close:hover,.btn-submit:hover, .open-button:hover {
+    opacity: 1;
+  }
+
+.form-container .checkbox-label {
+    display: block;
+    text-align: center;
+}
